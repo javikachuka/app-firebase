@@ -1,0 +1,43 @@
+<div class="container p-5">
+  <div class="card" *ngIf="!logued">
+    <div class="card-header">
+      <h1>
+        Login
+      </h1>
+    </div>
+    <div class="card-body">
+      <ng-container *ngIf="errorMessage">
+        <span class="text-danger">{{errorMessage}}</span>
+      </ng-container>
+      <form action="" [formGroup]="miForm">
+        <label for="" >Email</label>
+        <input type="text" required  name="email" id="" class="form-control"
+        formControlName="user" placeholder="Ingrese su email por favor" [class.is-invalid]="controlsForm.user.touched && controlsForm.user.invalid" >
+        <div *ngIf="controlsForm.user.touched && controlsForm.user.invalid" class="text-right text-danger small">
+          El campo email es requerido!
+        </div>
+        <label for="" >Contraseña</label>
+        <input type="password" name="password" id="password" class="form-control"
+        formControlName="password" placeholder="Ingrese su password por favor" [class.is-invalid]="controlsForm.password.touched && controlsForm.password.invalid">
+        <div *ngIf="controlsForm.password.touched && controlsForm.password.invalid" class="text-right text-danger small">
+          El campo contraseña es requerido!
+        </div>
+        <br>
+        <div class="d-flex justify-content-end">
+          <button type="button" class="btn btn-outline-info " (click)="createUser()" >Registrate <i class="fa fa-check "></i></button>
+          <button type="button" class="btn btn-outline-success ml-2" (click)="signIn()" >Acceder <i class="fa fa-sign-out "></i></button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="card" *ngIf="logued">
+    <div class="card-body">
+      <p>Estas logueado!!!</p>
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-outline-primary btn-sm" (click)="logout()">Salir <i class="fa fa-sign-out nav-icon"></i></button>
+    </div>
+  </div>
+</div>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="small" color="rgba(238,237,68,0.73)" type="ball-square-clockwise-spin"
+  [fullScreen]="true"></ngx-spinner>

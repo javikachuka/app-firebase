@@ -1,0 +1,102 @@
+<div class="row justify-content-between">
+
+  <div class="col-md-6">
+    <h5>Listado de Productos</h5>
+  </div>
+
+  <div class="mr-3">
+    <button class="btn btn-sm btn-warning" (click)="open(mymodalProducts)">Nuevo <i class="fa fa-plus"></i></button>
+  </div>
+</div>
+
+
+<div class="card d-inline-block m-4 " style="width: 18rem;"
+  *ngFor="let product of products">
+  <img class="card-img-top" src="{{product.linkPhoto}}" alt="..." height="300px">
+  <div class="card-body">
+    <h5 class="card-title">{{product.name}} <span class="text-muted">${{product.price}}</span></h5>
+    <p class="card-text">{{product.description}}
+    </p>
+  </div>
+  <div class="card-footer d-flex justify-content-between">
+    <button class="btn btn-light btn-sm" (click)="openModalEdit(mymodalProducts,product)"><i
+        class="fa fa-edit"></i></button>
+    <button class="btn btn-danger btn-sm" (click)="openModalDelete(mymodalDelete,product.id)"><i
+        class="fa fa-trash"></i></button>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<ng-template #mymodalProducts let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title" *ngIf="!editing">Nuevo Producto</h5>
+    <h5 class="modal-title" id="modal-basic-title" *ngIf="editing">Edicion de Producto</h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')"
+      style="outline: none;">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formProducts">
+      <label for="nombre">Nombre</label>
+      <input type="text" name="name" id="nombre" formControlName="name" class="form-control"
+        placeholder="Nombre del producto" [class.is-invalid]="controlsForm.name.touched && controlsForm.name.invalid">
+      <div *ngIf="controlsForm.name.touched && controlsForm.name.invalid" class="text-right text-danger small">
+        El campo nombre es requerido!
+      </div>
+      <label for="descripcion">Descripcion</label>
+      <input type="text" name="description" id="descripcion" class="form-control" formControlName="description"
+        placeholder="Descripcion del producto"
+        [class.is-invalid]="controlsForm.description.touched && controlsForm.description.invalid">
+      <div *ngIf="controlsForm.description.touched && controlsForm.description.invalid"
+        class="text-right text-danger small">
+        El campo producto es requerido!
+      </div>
+      <label for="precio">Precio</label>
+      <input type="number" name="price" id="precio" class="form-control" formControlName="price"
+        placeholder="Precio del producto" [class.is-invalid]="controlsForm.price.touched && controlsForm.price.invalid">
+      <div *ngIf="controlsForm.price.touched && controlsForm.price.invalid" class="text-right text-danger small">
+        El campo precio es requerido!
+      </div>
+      <label for="linkPhoto">Link de la foto</label>
+      <input type="text" name="linkPhoto" id="linkPhoto" class="form-control" formControlName="linkPhoto"
+        placeholder="Link de la foto del producto" [class.is-invalid]="controlsForm.linkPhoto.touched && controlsForm.linkPhoto.invalid">
+      <div *ngIf="controlsForm.linkPhoto.touched && controlsForm.linkPhoto.invalid" class="text-right text-danger small">
+        El campo link es requerido!
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="modal.close('cancel click')">Cancelar <i
+        class="fa fa-ban"></i></button>
+    <button type="button" class="btn btn-warning btn-sm" (click)="saveProduct()" *ngIf="!editing">Guardar <i
+        class="fa fa-save"></i></button>
+    <button type="button" class="btn btn-warning btn-sm" (click)="updateProduct()" *ngIf="editing">Actualizar <i
+        class="fa fa-save"></i></button>
+  </div>
+</ng-template>
+
+<!-- Modal -->
+<ng-template #mymodalDelete let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Eliminar Producto</h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')"
+      style="outline: none;">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Estas seguro que deseas eliminar a {{idDelete}}?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="modal.close('cancel click')">Cancelar <i
+        class="fa fa-ban"></i></button>
+    <button type="button" class="btn btn-danger btn-sm" (click)="deleteProduct(idDelete)">Eliminar <i
+        class="fa fa-trash"></i></button>
+  </div>
+</ng-template>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="small" color="rgba(238,237,68,0.73)" type="ball-square-clockwise-spin"
+  [fullScreen]="true"></ngx-spinner>
